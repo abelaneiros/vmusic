@@ -663,12 +663,6 @@ public class LibraryPagerAdapter
 	 */
 	private static final int MSG_RUN_QUERY = 0;
 	/**
-	 * Save the sort mode for the adapter passed in obj.
-	 *
-	 * Runs on worker thread.
-	 */
-	private static final int MSG_SAVE_SORT = 1;
-	/**
 	 * Call {@link LibraryPagerAdapter#requestRequery(LibraryAdapter)} on the adapter
 	 * passed in obj.
 	 *
@@ -698,13 +692,6 @@ public class LibraryPagerAdapter
 			int index = message.arg1;
 			mAdapters[index].commitQuery(message.obj);
 			restorePosition(index);
-			break;
-		}
-		case MSG_SAVE_SORT: {
-			SortableAdapter adapter = (SortableAdapter)message.obj;
-			SharedPreferences.Editor editor = SharedPrefHelper.getSettings(mActivity).edit();
-			editor.putInt(adapter.getSortSettingsKey(), adapter.getSortMode());
-			editor.apply();
 			break;
 		}
 		case MSG_REQUEST_REQUERY:
@@ -798,27 +785,6 @@ public class LibraryPagerAdapter
 		int def = adapter.getDefaultSortMode();
 		int sort = SharedPrefHelper.getSettings(mActivity).getInt(key, def);
 		adapter.setSortMode(sort);
-	}
-
-	/**
-	 * Set the sort mode for the current adapter. Current adapter must be a
-	 * MediaAdapter. Saves this sort mode to preferences and updates the list
-	 * associated with the adapter to display the new sort mode.
-	 *
-	 * @param mode The sort mode. See {@link MediaAdapter#setSortMode(int)} for
-	 * details.
-	 */
-	public void setSortMode(int mode)
-	{
-		SortableAdapter adapter = (SortableAdapter)mCurrentAdapter;
-		if (mode == adapter.getSortMode())
-			return;
-
-		adapter.setSortMode(mode);
-		requestRequery(mCurrentAdapter);
-
-		Handler handler = mWorkerHandler;
-		handler.sendMessage(handler.obtainMessage(MSG_SAVE_SORT, adapter));
 	}
 
 	/**

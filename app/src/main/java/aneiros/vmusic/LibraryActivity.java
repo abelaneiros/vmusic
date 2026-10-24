@@ -33,7 +33,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -47,10 +46,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -66,9 +63,7 @@ import junit.framework.Assert;
  */
 public class LibraryActivity
 	extends SlidingPlaybackActivity
-	implements DialogInterface.OnClickListener
-			 , DialogInterface.OnDismissListener
-			 , SearchView.OnQueryTextListener
+	implements SearchView.OnQueryTextListener
 	                 , FancyMenu.Callback
 {
 
@@ -859,7 +854,6 @@ public class LibraryActivity
 		menu.add(0, MENU_PLAYBACK, 0, R.string.playback_view);
 		menu.add(0, MENU_SEARCH, 0, R.string.search).setIcon(R.drawable.ic_menu_search).setVisible(false);
 		menu.add(0, MENU_GO_HOME, 30, R.string.go_home);
-		menu.add(0, MENU_SORT, 30, R.string.sort_by).setIcon(R.drawable.ic_menu_sort_alphabetically);
 		return true;
 	}
 
@@ -888,32 +882,6 @@ public class LibraryActivity
 			mPagerAdapter.setLimiter(FileSystemAdapter.buildHomeLimiter(getApplicationContext()));
 			updateLimiterViews();
 			break;
-		case MENU_SORT: {
-			SortableAdapter adapter = (SortableAdapter)mCurrentAdapter;
-			LinearLayout list = (LinearLayout)getLayoutInflater().inflate(R.layout.sort_dialog, null);
-			CheckBox reverseSort = (CheckBox)list.findViewById(R.id.reverse_sort);
-
-			int[] itemIds = adapter.getSortEntries();
-			String[] items = new String[itemIds.length];
-			Resources res = getResources();
-			for (int i = 0; i < itemIds.length; i++) {
-				items[i] = res.getString(itemIds[i]);
-			}
-
-			int mode = adapter.getSortModeIndex();
-			reverseSort.setChecked(adapter.isSortDescending());
-
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(R.string.sort_by);
-			builder.setSingleChoiceItems(items, mode, this);
-			builder.setPositiveButton(R.string.done, null);
-
-			AlertDialog dialog = builder.create();
-			dialog.getListView().addFooterView(list);
-			dialog.setOnDismissListener(this);
-			dialog.show();
-			break;
-		}
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -1003,26 +971,6 @@ public class LibraryActivity
 			mHandler.sendMessage(mHandler.obtainMessage(MSG_UPDATE_COVER, song));
 			mPagerAdapter.onSongChange(song);
 		}
-	}
-
-	@Override
-	public void onClick(DialogInterface dialog, int which)
-	{
-		dialog.dismiss();
-	}
-
-	@Override
-	public void onDismiss(DialogInterface dialog)
-	{
-		ListView list = ((AlertDialog)dialog).getListView();
-		int which = list.getCheckedItemPosition();
-
-		CheckBox reverseSort = (CheckBox)list.findViewById(R.id.reverse_sort);
-		if (reverseSort.isChecked()) {
-			which = ~which;
-		}
-
-		mPagerAdapter.setSortMode(which);
 	}
 
 	/**

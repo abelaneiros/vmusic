@@ -302,7 +302,7 @@ public class SlidingPlaybackActivity extends PlaybackActivity
 			return; // not initialized yet
 
 		final int[] slide_visible = {MENU_CLEAR_QUEUE, MENU_EMPTY_QUEUE, MENU_SAVE_QUEUE};
-		final int[] slide_hidden = {MENU_SORT, MENU_DELETE, MENU_ENQUEUE, MENU_MORE,
+		final int[] slide_hidden = {MENU_DELETE, MENU_ENQUEUE, MENU_MORE,
 		                            MENU_ADD_TO_PLAYLIST, MENU_SHARE};
 
 		final MenuItem hideQueue = mMenu.findItem(MENU_HIDE_QUEUE);

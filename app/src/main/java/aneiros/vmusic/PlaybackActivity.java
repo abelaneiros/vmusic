@@ -38,6 +38,7 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
+import android.preference.PreferenceActivity;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -367,7 +368,6 @@ public abstract class PlaybackActivity extends Activity
 	{
 	}
 
-	static final int MENU_SORT = 1;
 	static final int MENU_PREFS = 2;
 	static final int MENU_PLAYBACK = 3;
 	static final int MENU_SEARCH = 4;
@@ -390,11 +390,13 @@ public abstract class PlaybackActivity extends Activity
 	static final int MENU_MORE_GENRE = 24;
 	static final int MENU_MORE_FOLDER = 25;
 	static final int MENU_JUMP_TO_TIME = 26;
+	static final int MENU_ABOUT = 27;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		menu.add(0, MENU_PREFS, 10, R.string.settings).setIcon(R.drawable.ic_menu_preferences);
+		menu.add(0, MENU_PREFS, 40, R.string.settings).setIcon(R.drawable.ic_menu_preferences);
+		menu.add(0, MENU_ABOUT, 40, R.string.about);
 		return true;
 	}
 
@@ -405,6 +407,14 @@ public abstract class PlaybackActivity extends Activity
 		case MENU_PREFS:
 			startActivity(new Intent(this, PreferencesActivity.class));
 			break;
+		case MENU_ABOUT: {
+			Intent intent = new Intent(this, PreferencesActivity.class);
+			intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, PreferencesActivity.AboutFragment.class.getName());
+			intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT_TITLE, R.string.about);
+			intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
+			startActivity(intent);
+			break;
+		}
 		case MENU_CLEAR_QUEUE:
 			PlaybackService.get(this).clearQueue();
 			break;

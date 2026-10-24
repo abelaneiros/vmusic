@@ -56,7 +56,6 @@
   <string name="expand_or_play_all">Expandir o reproducir todas</string>
   <string name="delete">Eliminar</string>
   <string name="playback_view">Reproduciendo ahora</string>
-  <string name="sort_by">Ordenar por</string>
   <string name="search">Buscar</string>
   <string name="done">Hecho</string>
   <string name="remove">Eliminar</string>
@@ -301,7 +300,6 @@
   <string name="permission_request_storage">Archivos y multimedia: para encontrar y reproducir las canciones de tu dispositivo</string>
   <string name="permission_request_images">Fotos y vídeos (opcional): para mostrar las portadas de los álbumes. Elige «Permitir todo»</string>
   <string name="permission_request_notifications">Notificaciones (opcional): para mostrar los controles de reproducción y el progreso del escaneo de la biblioteca</string>
-  <string name="reverse_sort">Invertir el orden</string>
   <string name="share">Compartir...</string>
   <string name="share_failed">Fallo al compartir el archivo</string>
   <string name="sendto">Enviar a...</string>
