@@ -1,0 +1,1227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>ch.blinkenlights.android</groupId>
+		<artifactId>music-parent</artifactId>
+		<version>2.2.0</version>
+	</parent>
+
+	<artifactId>music</artifactId>
+	<packaging>pom</packaging>
+
+	<name>vMusic</name>
+
+	<properties>
+		<android.namespace>aneiros.vmusic</android.namespace>
+		<android.applicationId>aneiros.vmusic</android.applicationId>
+
+		<android.platform.jar>${android.sdk.path}/platforms/android-${android.compileSdkVersion}/android.jar</android.platform.jar>
+		<android.build.tools.dir>${android.sdk.path}/build-tools/${android.buildToolsVersion}</android.build.tools.dir>
+		<android.aapt2>${android.build.tools.dir}/aapt2</android.aapt2>
+		<android.zipalign>${android.build.tools.dir}/zipalign</android.zipalign>
+		<android.d8.jar>${android.build.tools.dir}/lib/d8.jar</android.d8.jar>
+		<android.apksigner.jar>${android.build.tools.dir}/lib/apksigner.jar</android.apksigner.jar>
+		<android.lambda.stubs.jar>${android.build.tools.dir}/core-lambda-stubs.jar</android.lambda.stubs.jar>
+
+		<android.debug.keystore>${user.home}/.android/debug.keystore</android.debug.keystore>
+		<android.debug.keystore.password>android</android.debug.keystore.password>
+		<android.debug.key.alias>androiddebugkey</android.debug.key.alias>
+		<android.debug.key.password>android</android.debug.key.password>
+
+		<android.src.dir>${project.basedir}/src/main</android.src.dir>
+		<android.work.dir>${project.build.directory}/android</android.work.dir>
+		<android.dependencies.dir>${android.work.dir}/dependencies</android.dependencies.dir>
+		<android.libraries.dir>${android.work.dir}/libraries</android.libraries.dir>
+		<android.compiled.res.dir>${android.work.dir}/compiled-res</android.compiled.res.dir>
+		<android.generated.sources.dir>${project.build.directory}/generated-sources/r</android.generated.sources.dir>
+		<android.merged.manifest>${android.work.dir}/AndroidManifest.xml</android.merged.manifest>
+		<android.classes.dir>${project.build.outputDirectory}</android.classes.dir>
+		<android.classes.jar>${android.work.dir}/app-classes.jar</android.classes.jar>
+		<android.debug.dir>${android.work.dir}/debug</android.debug.dir>
+		<android.release.dir>${android.work.dir}/release</android.release.dir>
+
+		<android.debug.apk>${project.build.directory}/app-debug.apk</android.debug.apk>
+		<android.release.apk>${project.build.directory}/app-release-unsigned.apk</android.release.apk>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>androidx.annotation</groupId>
+			<artifactId>annotation</artifactId>
+			<version>1.3.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.legacy</groupId>
+			<artifactId>legacy-support-core-ui</artifactId>
+			<version>1.0.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.media</groupId>
+			<artifactId>media</artifactId>
+			<version>1.6.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.google.android.material</groupId>
+			<artifactId>material</artifactId>
+			<version>1.7.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.activity</groupId>
+			<artifactId>activity</artifactId>
+			<version>1.5.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.annotation</groupId>
+			<artifactId>annotation-experimental</artifactId>
+			<version>1.1.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.appcompat</groupId>
+			<artifactId>appcompat</artifactId>
+			<version>1.5.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.appcompat</groupId>
+			<artifactId>appcompat-resources</artifactId>
+			<version>1.5.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.arch.core</groupId>
+			<artifactId>core-common</artifactId>
+			<version>2.1.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.arch.core</groupId>
+			<artifactId>core-runtime</artifactId>
+			<version>2.1.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.asynclayoutinflater</groupId>
+			<artifactId>asynclayoutinflater</artifactId>
+			<version>1.0.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.cardview</groupId>
+			<artifactId>cardview</artifactId>
+			<version>1.0.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.collection</groupId>
+			<artifactId>collection</artifactId>
+			<version>1.1.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.concurrent</groupId>
+			<artifactId>concurrent-futures</artifactId>
+			<version>1.0.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.constraintlayout</groupId>
+			<artifactId>constraintlayout</artifactId>
+			<version>2.0.1</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.constraintlayout</groupId>
+			<artifactId>constraintlayout-solver</artifactId>
+			<version>2.0.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.coordinatorlayout</groupId>
+			<artifactId>coordinatorlayout</artifactId>
+			<version>1.1.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.core</groupId>
+			<artifactId>core</artifactId>
+			<version>1.8.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.core</groupId>
+			<artifactId>core-ktx</artifactId>
+			<version>1.8.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.cursoradapter</groupId>
+			<artifactId>cursoradapter</artifactId>
+			<version>1.0.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.customview</groupId>
+			<artifactId>customview</artifactId>
+			<version>1.1.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.documentfile</groupId>
+			<artifactId>documentfile</artifactId>
+			<version>1.0.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.drawerlayout</groupId>
+			<artifactId>drawerlayout</artifactId>
+			<version>1.1.1</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.dynamicanimation</groupId>
+			<artifactId>dynamicanimation</artifactId>
+			<version>1.0.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.emoji2</groupId>
+			<artifactId>emoji2</artifactId>
+			<version>1.2.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.emoji2</groupId>
+			<artifactId>emoji2-views-helper</artifactId>
+			<version>1.2.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.fragment</groupId>
+			<artifactId>fragment</artifactId>
+			<version>1.3.6</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.interpolator</groupId>
+			<artifactId>interpolator</artifactId>
+			<version>1.0.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.legacy</groupId>
+			<artifactId>legacy-support-core-utils</artifactId>
+			<version>1.0.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.lifecycle</groupId>
+			<artifactId>lifecycle-common</artifactId>
+			<version>2.5.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.lifecycle</groupId>
+			<artifactId>lifecycle-livedata</artifactId>
+			<version>2.0.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.lifecycle</groupId>
+			<artifactId>lifecycle-livedata-core</artifactId>
+			<version>2.5.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.lifecycle</groupId>
+			<artifactId>lifecycle-process</artifactId>
+			<version>2.4.1</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.lifecycle</groupId>
+			<artifactId>lifecycle-runtime</artifactId>
+			<version>2.5.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.lifecycle</groupId>
+			<artifactId>lifecycle-viewmodel</artifactId>
+			<version>2.5.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.lifecycle</groupId>
+			<artifactId>lifecycle-viewmodel-savedstate</artifactId>
+			<version>2.5.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.loader</groupId>
+			<artifactId>loader</artifactId>
+			<version>1.0.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.localbroadcastmanager</groupId>
+			<artifactId>localbroadcastmanager</artifactId>
+			<version>1.0.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.print</groupId>
+			<artifactId>print</artifactId>
+			<version>1.0.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.recyclerview</groupId>
+			<artifactId>recyclerview</artifactId>
+			<version>1.1.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.resourceinspection</groupId>
+			<artifactId>resourceinspection-annotation</artifactId>
+			<version>1.0.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.savedstate</groupId>
+			<artifactId>savedstate</artifactId>
+			<version>1.2.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.slidingpanelayout</groupId>
+			<artifactId>slidingpanelayout</artifactId>
+			<version>1.0.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.startup</groupId>
+			<artifactId>startup-runtime</artifactId>
+			<version>1.1.1</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.swiperefreshlayout</groupId>
+			<artifactId>swiperefreshlayout</artifactId>
+			<version>1.0.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.tracing</groupId>
+			<artifactId>tracing</artifactId>
+			<version>1.0.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.transition</groupId>
+			<artifactId>transition</artifactId>
+			<version>1.2.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.vectordrawable</groupId>
+			<artifactId>vectordrawable</artifactId>
+			<version>1.1.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.vectordrawable</groupId>
+			<artifactId>vectordrawable-animated</artifactId>
+			<version>1.1.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.versionedparcelable</groupId>
+			<artifactId>versionedparcelable</artifactId>
+			<version>1.1.1</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.viewpager</groupId>
+			<artifactId>viewpager</artifactId>
+			<version>1.0.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>androidx.viewpager2</groupId>
+			<artifactId>viewpager2</artifactId>
+			<version>1.0.0</version>
+			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>listenablefuture</artifactId>
+			<version>1.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-core</artifactId>
+			<version>1.3</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains</groupId>
+			<artifactId>annotations</artifactId>
+			<version>13.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-stdlib</artifactId>
+			<version>1.7.10</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-stdlib-common</artifactId>
+			<version>1.7.10</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-stdlib-jdk7</artifactId>
+			<version>1.6.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-stdlib-jdk8</artifactId>
+			<version>1.6.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlinx</groupId>
+			<artifactId>kotlinx-coroutines-android</artifactId>
+			<version>1.6.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlinx</groupId>
+			<artifactId>kotlinx-coroutines-core-jvm</artifactId>
+			<version>1.6.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>android-sdk</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireJavaVersion>
+									<version>[17,)</version>
+								</requireJavaVersion>
+								<requireFilesExist>
+									<message>Android SDK not found: set ANDROID_HOME or pass -Dandroid.sdk.path=..., and install platforms;android-${android.compileSdkVersion} and build-tools;${android.buildToolsVersion}</message>
+									<files>
+										<file>${android.platform.jar}</file>
+										<file>${android.aapt2}</file>
+										<file>${android.zipalign}</file>
+										<file>${android.d8.jar}</file>
+										<file>${android.apksigner.jar}</file>
+										<file>${android.lambda.stubs.jar}</file>
+									</files>
+								</requireFilesExist>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-aar-dependencies</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<includeTypes>aar</includeTypes>
+							<prependGroupId>true</prependGroupId>
+							<outputDirectory>${android.dependencies.dir}/aar</outputDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-jar-dependencies</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<includeTypes>jar</includeTypes>
+							<prependGroupId>true</prependGroupId>
+							<outputDirectory>${android.dependencies.dir}/jar</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<groupId>ant-contrib</groupId>
+						<artifactId>ant-contrib</artifactId>
+						<version>${ant-contrib.version}</version>
+						<exclusions>
+							<exclusion>
+								<groupId>ant</groupId>
+								<artifactId>ant</artifactId>
+							</exclusion>
+						</exclusions>
+					</dependency>
+					<dependency>
+						<groupId>com.android.tools.build</groupId>
+						<artifactId>manifest-merger</artifactId>
+						<version>${manifest-merger.version}</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<id>android-resources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<taskdef resource="net/sf/antcontrib/antlib.xml" classpathref="maven.plugin.classpath"/>
+
+								<delete dir="${android.libraries.dir}"/>
+								<for param="aar">
+									<fileset dir="${android.dependencies.dir}/aar" includes="*.aar"/>
+									<sequential>
+										<local name="aar.name"/>
+										<basename property="aar.name" file="@{aar}" suffix=".aar"/>
+										<unzip src="@{aar}" dest="${android.libraries.dir}/${aar.name}"/>
+									</sequential>
+								</for>
+
+								<mkdir dir="${android.compiled.res.dir}/libraries"/>
+								<delete>
+									<fileset dir="${android.compiled.res.dir}/libraries" includes="*.zip">
+										<not>
+											<present targetdir="${android.libraries.dir}">
+												<mapper type="glob" from="*.zip" to="*/res"/>
+											</present>
+										</not>
+									</fileset>
+								</delete>
+								<apply executable="${android.aapt2}" type="dir" dest="${android.compiled.res.dir}/libraries" failonerror="true">
+									<arg value="compile"/>
+									<arg value="-o"/>
+									<targetfile/>
+									<arg value="--dir"/>
+									<srcfile/>
+									<dirset dir="${android.libraries.dir}" includes="*/res"/>
+									<regexpmapper from="^(.*)[/\\]res$" to="\1.zip" handledirsep="true"/>
+								</apply>
+								<pathconvert property="android.library.res.list" pathsep="${line.separator}">
+									<sort>
+										<fileset dir="${android.compiled.res.dir}/libraries" includes="*.zip"/>
+									</sort>
+								</pathconvert>
+								<echo file="${android.compiled.res.dir}/libraries.txt" message="${android.library.res.list}${line.separator}"/>
+
+								<delete file="${android.compiled.res.dir}/app.zip"/>
+								<exec executable="${android.aapt2}" failonerror="true">
+									<arg value="compile"/>
+									<arg value="-o"/>
+									<arg file="${android.compiled.res.dir}/app.zip"/>
+									<arg value="--dir"/>
+									<arg file="${android.src.dir}/res"/>
+								</exec>
+
+								<pathconvert property="android.library.manifests" pathsep="${path.separator}">
+									<sort>
+										<fileset dir="${android.libraries.dir}" includes="*/AndroidManifest.xml"/>
+									</sort>
+								</pathconvert>
+								<java classname="com.android.manifmerger.Merger" classpathref="maven.plugin.classpath" fork="true" failonerror="true">
+									<arg value="--main"/>
+									<arg file="${android.src.dir}/AndroidManifest.xml"/>
+									<arg value="--libs"/>
+									<arg value="${android.library.manifests}"/>
+									<arg value="--property"/>
+									<arg value="PACKAGE=${android.applicationId}"/>
+									<arg value="--property"/>
+									<arg value="MIN_SDK_VERSION=${android.minSdkVersion}"/>
+									<arg value="--property"/>
+									<arg value="TARGET_SDK_VERSION=${android.targetSdkVersion}"/>
+									<arg value="--remove-tools-declarations"/>
+									<arg value="--out"/>
+									<arg file="${android.merged.manifest}"/>
+								</java>
+
+								<delete file="${android.work.dir}/extra-packages.txt"/>
+								<for param="manifest">
+									<fileset dir="${android.libraries.dir}" includes="*/AndroidManifest.xml"/>
+									<sequential>
+										<local name="library.manifest(package)"/>
+										<xmlproperty file="@{manifest}" prefix="library" keeproot="true"/>
+										<echo file="${android.work.dir}/extra-packages.txt" append="true" message=":${library.manifest(package)}"/>
+									</sequential>
+								</for>
+								<loadfile property="android.extra.packages" srcfile="${android.work.dir}/extra-packages.txt">
+									<filterchain>
+										<tokenfilter>
+											<replaceregex pattern="^:" replace=""/>
+										</tokenfilter>
+									</filterchain>
+								</loadfile>
+
+								<delete dir="${android.generated.sources.dir}"/>
+								<mkdir dir="${android.generated.sources.dir}"/>
+								<mkdir dir="${android.debug.dir}"/>
+								<exec executable="${android.aapt2}" failonerror="true">
+									<arg value="link"/>
+									<arg value="-I"/>
+									<arg file="${android.platform.jar}"/>
+									<arg value="--manifest"/>
+									<arg file="${android.merged.manifest}"/>
+									<arg value="--min-sdk-version"/>
+									<arg value="${android.minSdkVersion}"/>
+									<arg value="--target-sdk-version"/>
+									<arg value="${android.targetSdkVersion}"/>
+									<arg value="--auto-add-overlay"/>
+									<arg value="-R"/>
+									<arg value="@${android.compiled.res.dir}/libraries.txt"/>
+									<arg value="-R"/>
+									<arg file="${android.compiled.res.dir}/app.zip"/>
+									<arg value="-A"/>
+									<arg file="${android.src.dir}/assets"/>
+									<arg value="--java"/>
+									<arg file="${android.generated.sources.dir}"/>
+									<arg value="--custom-package"/>
+									<arg value="${android.namespace}"/>
+									<arg value="--extra-packages"/>
+									<arg value="${android.extra.packages}"/>
+									<arg value="--debug-mode"/>
+									<arg value="-o"/>
+									<arg file="${android.debug.dir}/resources.ap_"/>
+								</exec>
+
+								<mkdir dir="${android.release.dir}"/>
+								<exec executable="${android.aapt2}" failonerror="true">
+									<arg value="link"/>
+									<arg value="-I"/>
+									<arg file="${android.platform.jar}"/>
+									<arg value="--manifest"/>
+									<arg file="${android.merged.manifest}"/>
+									<arg value="--min-sdk-version"/>
+									<arg value="${android.minSdkVersion}"/>
+									<arg value="--target-sdk-version"/>
+									<arg value="${android.targetSdkVersion}"/>
+									<arg value="--auto-add-overlay"/>
+									<arg value="-R"/>
+									<arg value="@${android.compiled.res.dir}/libraries.txt"/>
+									<arg value="-R"/>
+									<arg file="${android.compiled.res.dir}/app.zip"/>
+									<arg value="-A"/>
+									<arg file="${android.src.dir}/assets"/>
+									<arg value="--proguard"/>
+									<arg file="${android.release.dir}/aapt-rules.pro"/>
+									<arg value="-o"/>
+									<arg file="${android.release.dir}/resources.ap_"/>
+								</exec>
+							</target>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>android-compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<delete dir="${android.classes.dir}"/>
+								<mkdir dir="${android.classes.dir}"/>
+								<javac destdir="${android.classes.dir}" source="${java.source.version}" target="${java.target.version}" encoding="${project.build.sourceEncoding}" includeantruntime="false" debug="true" fork="false">
+									<src path="${android.src.dir}/java"/>
+									<src path="${android.generated.sources.dir}"/>
+									<bootclasspath>
+										<pathelement location="${android.platform.jar}"/>
+										<pathelement location="${android.lambda.stubs.jar}"/>
+									</bootclasspath>
+									<classpath>
+										<fileset dir="${android.libraries.dir}" includes="*/classes.jar,*/libs/*.jar"/>
+										<fileset dir="${android.dependencies.dir}/jar" includes="*.jar"/>
+									</classpath>
+									<compilerarg value="-Xlint:-options"/>
+								</javac>
+								<delete file="${android.classes.jar}"/>
+								<jar destfile="${android.classes.jar}" basedir="${android.classes.dir}"/>
+							</target>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>android-package</id>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<taskdef resource="net/sf/antcontrib/antlib.xml" classpathref="maven.plugin.classpath"/>
+
+								<path id="android.program.jars">
+									<pathelement location="${android.classes.jar}"/>
+									<sort>
+										<fileset dir="${android.libraries.dir}" includes="*/classes.jar,*/libs/*.jar"/>
+									</sort>
+									<sort>
+										<fileset dir="${android.dependencies.dir}/jar" includes="*.jar"/>
+									</sort>
+								</path>
+								<pathconvert property="android.program.jar.list" refid="android.program.jars" pathsep="${line.separator}"/>
+								<echo file="${android.work.dir}/program-jars.txt" message="${android.program.jar.list}${line.separator}"/>
+
+								<resources id="android.java.resources">
+									<restrict>
+										<archives>
+											<zips>
+												<path refid="android.program.jars"/>
+											</zips>
+										</archives>
+										<type type="file"/>
+										<not>
+											<or>
+												<name regex="(.*/)?[^/]*\.class"/>
+												<name regex="LICENSE(\.txt)?"/>
+												<name regex="META-INF/MANIFEST\.MF"/>
+												<name regex="META-INF/[^/]*\.(SF|DSA|RSA|EC)"/>
+												<name regex="META-INF/[^/]*\.kotlin_module"/>
+												<name regex="(.*/)?[^/]*\.kotlin_metadata"/>
+												<name regex="META-INF/(maven|proguard|versions|com\.android\.tools)/.*"/>
+											</or>
+										</not>
+									</restrict>
+								</resources>
+
+								<delete dir="${android.debug.dir}/dex"/>
+								<mkdir dir="${android.debug.dir}/dex"/>
+								<java classname="com.android.tools.r8.D8" classpath="${android.d8.jar}" fork="true" failonerror="true" output="${android.debug.dir}/d8.log">
+									<jvmarg value="-Xmx2G"/>
+									<arg value="--debug"/>
+									<arg value="--min-api"/>
+									<arg value="${android.minSdkVersion}"/>
+									<arg value="--lib"/>
+									<arg file="${android.platform.jar}"/>
+									<arg value="--output"/>
+									<arg file="${android.debug.dir}/dex"/>
+									<arg value="@${android.work.dir}/program-jars.txt"/>
+								</java>
+
+								<delete file="${android.debug.dir}/unaligned.apk"/>
+								<zip destfile="${android.debug.dir}/unaligned.apk" keepcompression="true" duplicate="preserve" filesonly="true">
+									<zipfileset src="${android.debug.dir}/resources.ap_"/>
+									<fileset dir="${android.debug.dir}/dex" includes="*.dex"/>
+									<resources refid="android.java.resources"/>
+								</zip>
+								<exec executable="${android.zipalign}" failonerror="true">
+									<arg value="-p"/>
+									<arg value="-f"/>
+									<arg value="4"/>
+									<arg file="${android.debug.dir}/unaligned.apk"/>
+									<arg file="${android.debug.dir}/aligned.apk"/>
+								</exec>
+
+								<if>
+									<not>
+										<available file="${android.debug.keystore}"/>
+									</not>
+									<then>
+										<dirname property="android.debug.keystore.dir" file="${android.debug.keystore}"/>
+										<mkdir dir="${android.debug.keystore.dir}"/>
+										<exec executable="${java.home}/bin/keytool" failonerror="true">
+											<arg value="-genkeypair"/>
+											<arg value="-keystore"/>
+											<arg file="${android.debug.keystore}"/>
+											<arg value="-storepass"/>
+											<arg value="${android.debug.keystore.password}"/>
+											<arg value="-alias"/>
+											<arg value="${android.debug.key.alias}"/>
+											<arg value="-keypass"/>
+											<arg value="${android.debug.key.password}"/>
+											<arg value="-keyalg"/>
+											<arg value="RSA"/>
+											<arg value="-keysize"/>
+											<arg value="2048"/>
+											<arg value="-validity"/>
+											<arg value="10950"/>
+											<arg value="-dname"/>
+											<arg value="CN=Android Debug,O=Android,C=US"/>
+										</exec>
+									</then>
+								</if>
+								<java classname="com.android.apksigner.ApkSignerTool" classpath="${android.apksigner.jar}" fork="true" failonerror="true">
+									<jvmarg value="--enable-native-access=ALL-UNNAMED"/>
+									<arg value="sign"/>
+									<arg value="--v1-signing-enabled"/>
+									<arg value="false"/>
+									<arg value="--ks"/>
+									<arg file="${android.debug.keystore}"/>
+									<arg value="--ks-pass"/>
+									<arg value="pass:${android.debug.keystore.password}"/>
+									<arg value="--ks-key-alias"/>
+									<arg value="${android.debug.key.alias}"/>
+									<arg value="--key-pass"/>
+									<arg value="pass:${android.debug.key.password}"/>
+									<arg value="--out"/>
+									<arg file="${android.debug.apk}"/>
+									<arg file="${android.debug.dir}/aligned.apk"/>
+								</java>
+
+								<delete dir="${android.release.dir}/consumer-rules"/>
+								<for param="jar">
+									<path refid="android.program.jars"/>
+									<sequential>
+										<local name="jar.name"/>
+										<basename property="jar.name" file="@{jar}"/>
+										<unzip src="@{jar}" dest="${android.release.dir}/consumer-rules/${jar.name}">
+											<patternset includes="META-INF/proguard/*"/>
+										</unzip>
+									</sequential>
+								</for>
+								<concat destfile="${android.release.dir}/proguard-rules.pro" fixlastline="true">
+									<fileset file="${project.basedir}/proguard-android.txt"/>
+									<fileset file="${project.basedir}/proguard-rules.pro"/>
+									<fileset file="${android.release.dir}/aapt-rules.pro"/>
+									<sort>
+										<fileset dir="${android.libraries.dir}" includes="*/proguard.txt"/>
+									</sort>
+									<sort>
+										<fileset dir="${android.release.dir}/consumer-rules" includes="**" erroronmissingdir="false"/>
+									</sort>
+								</concat>
+
+								<delete dir="${android.release.dir}/dex"/>
+								<mkdir dir="${android.release.dir}/dex"/>
+								<java classname="com.android.tools.r8.R8" classpath="${android.d8.jar}" fork="true" failonerror="true" output="${android.release.dir}/r8.log">
+									<jvmarg value="-Xmx2G"/>
+									<arg value="--release"/>
+									<arg value="--pg-compat"/>
+									<arg value="--min-api"/>
+									<arg value="${android.minSdkVersion}"/>
+									<arg value="--lib"/>
+									<arg file="${android.platform.jar}"/>
+									<arg value="--pg-conf"/>
+									<arg file="${android.release.dir}/proguard-rules.pro"/>
+									<arg value="--pg-map-output"/>
+									<arg file="${android.release.dir}/mapping.txt"/>
+									<arg value="--output"/>
+									<arg file="${android.release.dir}/dex"/>
+									<arg value="@${android.work.dir}/program-jars.txt"/>
+								</java>
+
+								<delete file="${android.release.dir}/unaligned.apk"/>
+								<zip destfile="${android.release.dir}/unaligned.apk" keepcompression="true" duplicate="preserve" filesonly="true">
+									<zipfileset src="${android.release.dir}/resources.ap_"/>
+									<fileset dir="${android.release.dir}/dex" includes="*.dex"/>
+									<resources refid="android.java.resources"/>
+								</zip>
+								<exec executable="${android.zipalign}" failonerror="true">
+									<arg value="-p"/>
+									<arg value="-f"/>
+									<arg value="4"/>
+									<arg file="${android.release.dir}/unaligned.apk"/>
+									<arg file="${android.release.apk}"/>
+								</exec>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

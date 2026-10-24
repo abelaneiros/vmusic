@@ -1,0 +1,16 @@
+vMusic es un reproductor de MP3/OGG/FLAC/PCM sencillo y ligero para la música guardada en tu dispositivo.
+
+Funciones:
+* Pestaña Historial: las 10 últimas colas que has reproducido, con su pista y posición, para retomar cualquiera de ellas. Fija las que quieras conservar.
+* varias listas de reproducción
+* agrupación por artista, álbum o género
+* navegación por el sistema de archivos
+* compatible con ReplayGain
+* controles por auriculares y Bluetooth
+* control por acelerómetro (agitar)
+* carátulas de los álbumes
+* compatible con Simple Last.fm Scrobbler
+
+vMusic es un fork de Vanilla Music, de Adrian Ulrich y colaboradores. No está afiliado al proyecto Vanilla Music ni cuenta con su respaldo.
+
+vMusic es software libre, con licencia GNU GPLv3 (o posterior).

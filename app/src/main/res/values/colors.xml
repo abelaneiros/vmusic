@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- library tabs -->
+	<color name="tabs_active_indicator">@android:color/holo_blue_dark</color>
+	<color name="history_pinned_background">#26808080</color>
+	<color name="history_pin_icon">#ff888888</color>
+</resources>

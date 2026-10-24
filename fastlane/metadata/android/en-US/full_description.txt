@@ -1,0 +1,16 @@
+vMusic is a simple and lightweight MP3/OGG/FLAC/PCM player for the music stored on your device.
+
+Features:
+* History tab: the last 10 queues you played, with their track and position, so you can resume any of them. Pin the ones you want to keep.
+* multiple playlist support
+* grouping by artist, album or genre
+* plain filesystem browsing
+* ReplayGain support
+* headset/Bluetooth controls
+* accelerometer/shake control
+* cover art support
+* Simple Last.fm Scrobbler support
+
+vMusic is a fork of Vanilla Music by Adrian Ulrich and contributors. It is not affiliated with or endorsed by the Vanilla Music project.
+
+vMusic is free software, licensed under the GNU GPLv3 (or later).

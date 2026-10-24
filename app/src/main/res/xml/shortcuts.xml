@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<shortcut
+		android:enabled="true"
+		android:icon="@drawable/shortcut_play"
+		android:shortcutId="play"
+		android:shortcutDisabledMessage="@string/play"
+		android:shortcutLongLabel="@string/play"
+		android:shortcutShortLabel="@string/play">
+		<intent
+			android:action="aneiros.vmusic.action.TOGGLE_PLAYBACK"
+			android:targetClass="aneiros.vmusic.ShortcutPseudoActivity"
+			android:targetPackage="aneiros.vmusic"/>
+	</shortcut>
+
+	<shortcut
+		android:enabled="true"
+		android:icon="@drawable/shortcut_random"
+		android:shortcutId="random"
+		android:shortcutDisabledMessage="@string/random"
+		android:shortcutLongLabel="@string/random"
+		android:shortcutShortLabel="@string/random">
+		<intent
+			android:action="aneiros.vmusic.action.RANDOM_MIX_AUTOPLAY"
+			android:targetClass="aneiros.vmusic.ShortcutPseudoActivity"
+			android:targetPackage="aneiros.vmusic"/>
+	</shortcut>
+
+</shortcuts> 

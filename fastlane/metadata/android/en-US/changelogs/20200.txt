@@ -1,0 +1,3 @@
+* New History tab: resume, pin or delete the last 10 queues you played
+* New icon colour
+* Clearer permission message: each permission is explained and requested one at a time

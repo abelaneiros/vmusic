@@ -1,0 +1,3 @@
+* Nueva pestaña Historial: retoma, fija o borra las 10 últimas colas reproducidas
+* Nuevo color del icono
+* Mensaje de permisos más claro: se explica cada permiso y se piden uno a uno
