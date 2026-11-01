@@ -262,8 +262,8 @@
   <string name="hide_queue">Ocultar cola</string>
   <string name="dequeue_rest">Eliminar de la cola el resto</string>
   <string name="toggle_controls">Alternar controles</string>
-  <string name="seek_10s_backward">Retroceder 10 segundos</string>
-  <string name="seek_10s_forward">Avanzar 10 segundos</string>
+  <string name="seek_15s_backward">Retroceder 15 segundos</string>
+  <string name="seek_15s_forward">Avanzar 15 segundos</string>
   <string name="move_to_top">Ir al principio</string>
   <string name="move_to_bottom">Ir al final</string>
   <string name="preferences_action_show_queue">Mostrar cola</string>

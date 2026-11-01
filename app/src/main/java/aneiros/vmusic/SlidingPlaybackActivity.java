@@ -87,6 +87,12 @@ public class SlidingPlaybackActivity extends PlaybackActivity
 	}
 
 	@Override
+	protected void seekBy(int deltaMs) {
+		super.seekBy(deltaMs);
+		updateElapsedTime();
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
 		mPaused = false;

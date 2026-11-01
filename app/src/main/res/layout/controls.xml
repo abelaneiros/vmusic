@@ -24,7 +24,7 @@ THE SOFTWARE.
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:vib="http://schemas.android.com/apk/res-auto"
-	android:layout_height="wrap_content"
+	android:layout_height="@dimen/controls_height"
 	android:layout_width="fill_parent"
 	android:background="?overlay_background_color"
 	android:orientation="horizontal"
@@ -52,6 +52,17 @@ THE SOFTWARE.
 		android:src="@drawable/previous"
 		android:contentDescription="@string/previous_song" />
 	<aneiros.vmusic.MusicImageButton
+		android:id="@+id/seek_back"
+		android:paddingTop="@dimen/controls_padding"
+		android:paddingBottom="@dimen/controls_padding"
+		android:layout_height="fill_parent"
+		android:layout_width="0px"
+		android:layout_weight="1"
+		android:background="?android:attr/selectableItemBackground"
+		android:scaleType="fitCenter"
+		android:src="@drawable/seek_back_15"
+		android:contentDescription="@string/seek_15s_backward" />
+	<aneiros.vmusic.MusicImageButton
 		android:id="@+id/play_pause"
 		android:paddingTop="@dimen/controls_padding"
 		android:paddingBottom="@dimen/controls_padding"
@@ -62,6 +73,17 @@ THE SOFTWARE.
 		android:scaleType="fitCenter"
 		android:src="@drawable/play"
 		android:contentDescription="@string/play_pause" />
+	<aneiros.vmusic.MusicImageButton
+		android:id="@+id/seek_forward"
+		android:paddingTop="@dimen/controls_padding"
+		android:paddingBottom="@dimen/controls_padding"
+		android:layout_height="fill_parent"
+		android:layout_width="0px"
+		android:layout_weight="1"
+		android:background="?android:attr/selectableItemBackground"
+		android:scaleType="fitCenter"
+		android:src="@drawable/seek_forward_15"
+		android:contentDescription="@string/seek_15s_forward" />
 	<aneiros.vmusic.MusicImageButton
 		android:id="@+id/next"
 		android:paddingTop="@dimen/controls_padding"

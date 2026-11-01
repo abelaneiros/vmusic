@@ -224,6 +224,8 @@ public final class PlaybackService extends Service
 	private static final int SAVE_STATE_DELAY = 5000;
 	private static final int HISTORY_UPDATE_DELAY = 15000;
 	private static final int HISTORY_CHANGE_DELAY = 1000;
+	public static final int SEEK_STEP_MS = 15000;
+	private static final int SEEK_END_MARGIN_MS = 1000;
 	/**
 	 * If set, music will play.
 	 */
@@ -1724,6 +1726,23 @@ public final class PlaybackService extends Service
 		mHandler.sendEmptyMessage(MSG_BROADCAST_SEEK);
 	}
 
+	public void seekBy(int deltaMs) {
+		if (!mMediaPlayerInitialized) {
+			return;
+		}
+		int position = getPosition();
+		int target = position + deltaMs;
+		if (deltaMs > 0) {
+			target = Math.min(target, getDuration() - SEEK_END_MARGIN_MS);
+			if (target <= position) {
+				return;
+			}
+		} else {
+			target = Math.max(target, 0);
+		}
+		seekToPosition(target);
+	}
+
 	@Override
 	public IBinder onBind(Intent intents)
 	{
@@ -2340,7 +2359,7 @@ public final class PlaybackService extends Service
 		case SeekForward:
 			if (mCurrentSong != null) {
 				mPendingSeekSong = mCurrentSong.id;
-				mPendingSeek = getPosition() + 10000;
+				mPendingSeek = getPosition() + SEEK_STEP_MS;
 				// We 'abuse' setCurrentSong as it will stop the playback and restart it
 				// at the new position, taking care of the ui update
 				setCurrentSong(0);
@@ -2349,7 +2368,7 @@ public final class PlaybackService extends Service
 		case SeekBackward:
 			if (mCurrentSong != null) {
 				mPendingSeekSong = mCurrentSong.id;
-				mPendingSeek = getPosition() - 10000;
+				mPendingSeek = getPosition() - SEEK_STEP_MS;
 				if (mPendingSeek < 1) mPendingSeek = 1; // must at least be 1
 				setCurrentSong(0);
 			}

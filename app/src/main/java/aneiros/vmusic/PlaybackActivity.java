@@ -203,6 +203,11 @@ public abstract class PlaybackActivity extends Activity
 		setSong(PlaybackService.get(this).rewindCurrentSong());
 	}
 
+	protected void seekBy(int deltaMs)
+	{
+		PlaybackService.get(this).seekBy(deltaMs);
+	}
+
 
 	@Override
 	public void onClick(View view)
@@ -216,6 +221,12 @@ public abstract class PlaybackActivity extends Activity
 			break;
 		case R.id.previous:
 			rewindCurrentSong();
+			break;
+		case R.id.seek_back:
+			seekBy(-PlaybackService.SEEK_STEP_MS);
+			break;
+		case R.id.seek_forward:
+			seekBy(PlaybackService.SEEK_STEP_MS);
 			break;
 		case R.id.end_action:
 			cycleFinishAction();
@@ -317,6 +328,8 @@ public abstract class PlaybackActivity extends Activity
 		mPlayPauseButton.setOnClickListener(this);
 		View nextButton = findViewById(R.id.next);
 		nextButton.setOnClickListener(this);
+		findViewById(R.id.seek_back).setOnClickListener(this);
+		findViewById(R.id.seek_forward).setOnClickListener(this);
 
 		mShuffleButton = (ImageButton)findViewById(R.id.shuffle);
 		mShuffleButton.setOnClickListener(this);

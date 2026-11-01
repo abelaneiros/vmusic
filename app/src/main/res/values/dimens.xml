@@ -8,7 +8,8 @@
 	<dimen name="text_padding">14sp</dimen>
 	<dimen name="history_pin_size">18dp</dimen>
 	<dimen name="row_normal_height">56sp</dimen>
-	<dimen name="controls_padding">12dip</dimen>
+	<dimen name="controls_height">72dip</dimen>
+	<dimen name="controls_padding">6dip</dimen>
 	<!-- height of the full playback view controls -->
 	<dimen name="full_playback_controls_height">120dip</dimen>
 	<dimen name="track_details_dialog_padding">8dp</dimen>

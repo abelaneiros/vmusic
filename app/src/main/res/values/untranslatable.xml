@@ -73,8 +73,8 @@ THE SOFTWARE.
 		<item>@string/preferences_action_clear_queue</item>
 		<item>@string/preferences_action_show_queue</item>
 		<item>@string/toggle_controls</item>
-		<item>@string/seek_10s_forward</item>
-		<item>@string/seek_10s_backward</item>
+		<item>@string/seek_15s_forward</item>
+		<item>@string/seek_15s_backward</item>
 	</string-array>
 
 	<!-- START playlist action entries definition -->

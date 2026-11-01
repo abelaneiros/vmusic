@@ -89,11 +89,11 @@ enum Action {
 	 */
 	ToggleControls,
 	/**
-	 * Seek 10 seconds forward
+	 * Seek 15 seconds forward
 	 */
 	SeekForward,
 	/**
-	 * Seek 10 seconds back
+	 * Seek 15 seconds back
 	 */
 	SeekBackward;
 
