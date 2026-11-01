@@ -30,3 +30,26 @@ Building from command-line:
    * `app/target/app-release-unsigned.apk` (shrunk with R8, zipaligned, unsigned)
  * `adb install -r app/target/app-debug.apk` to install the APK to a connected device
 
+
+Release notes
+=============
+
+### 2.4.0
+- Release notes added to README.md
+
+### 2.3.0
+- Public repo created in Github and code pushed
+
+### 2.2.0
+- New icon with green colour
+- Added message explaining why the app needs each permission
+- Playing bar more visible (Play/Pause and other buttons always visible)
+- History tab added
+
+### 2.0.0
+- App renamed to vMusic
+- Default package renamed to abelaneiros.vmusic
+- Migrated from Gradle to Maven
+
+### 1.3.2
+- Fork/clone to original version

@@ -22,18 +22,21 @@ build: clean
 clean:
 	$(MVN) clean
 
-install:
-	adb install -r $(DEBUG_APK)
-
-uninstall:
-	adb uninstall aneiros.vmusic
-
 version:
 	./scripts/set-version.sh "$(V)"
 
-start:
+clear-app:
+	adb shell pm clear aneiros.vmusic
+
+install-app:
+	adb install -r $(DEBUG_APK)
+
+uninstall-app:
+	adb uninstall aneiros.vmusic
+
+start-emulator:
 	./scripts/start-android.sh
 
-stop:
+stop-emulator:
 	./scripts/stop-android.sh
 

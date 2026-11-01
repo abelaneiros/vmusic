@@ -73,7 +73,7 @@ public class LibraryPagerAdapter
 	 */
 	public static final int[] DEFAULT_TAB_ORDER = { MediaUtils.TYPE_ARTIST, MediaUtils.TYPE_ALBARTIST, MediaUtils.TYPE_COMPOSER,
 	                                                MediaUtils.TYPE_ALBUM, MediaUtils.TYPE_SONG, MediaUtils.TYPE_PLAYLIST,
-	                                                MediaUtils.TYPE_GENRE, MediaUtils.TYPE_FILE, MediaUtils.TYPE_HISTORY };
+	                                                MediaUtils.TYPE_GENRE, MediaUtils.TYPE_HISTORY, MediaUtils.TYPE_FILE };
 	/**
 	 * The default visibility of tabs
 	 */

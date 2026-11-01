@@ -22,29 +22,29 @@ THE SOFTWARE.
 -->
 <preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
 	<header
-		android:fragment="aneiros.vmusic.PreferencesActivity$AudioFragment"
-		android:title="@string/audio" />
-	<header
-		android:fragment="aneiros.vmusic.PreferencesActivity$PlaybackFragment"
-		android:title="@string/playback_screen" />
-	<header
-		android:fragment="aneiros.vmusic.PreferencesActivity$LibraryFragment"
-		android:title="@string/library_screen" />
-	<header
-		android:fragment="aneiros.vmusic.PreferencesActivity$NotificationsFragment"
-		android:title="@string/notifications" />
-	<header
 		android:fragment="aneiros.vmusic.PreferencesActivity$ShakeFragment"
 		android:title="@string/accelerometer_shake" />
+	<header
+		android:fragment="aneiros.vmusic.PreferencesActivity$AudioFragment"
+		android:title="@string/audio" />
 	<header
 		android:fragment="aneiros.vmusic.PreferencesActivity$CoverArtFragment"
 		android:title="@string/cover_art" />
 	<header
-		android:fragment="aneiros.vmusic.PreferencesActivity$MiscFragment"
-		android:title="@string/misc_features" />
+		android:fragment="aneiros.vmusic.PreferencesActivity$LibraryFragment"
+		android:title="@string/library_screen" />
 	<header
 		android:fragment="aneiros.vmusic.PreferencesMediaLibrary"
 		android:title="@string/media_library" />
+	<header
+		android:fragment="aneiros.vmusic.PreferencesActivity$MiscFragment"
+		android:title="@string/misc_features" />
+	<header
+		android:fragment="aneiros.vmusic.PreferencesActivity$NotificationsFragment"
+		android:title="@string/notifications" />
+	<header
+		android:fragment="aneiros.vmusic.PreferencesActivity$PlaybackFragment"
+		android:title="@string/playback_screen" />
 	<header
 		android:fragment="aneiros.vmusic.PreferencesActivity$PlaylistFragment"
 		android:title="@string/playlists" />
