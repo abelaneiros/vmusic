@@ -22,6 +22,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
 import androidx.core.app.NotificationCompat;
 
 
@@ -46,8 +47,10 @@ public class NotificationHelper {
 		mNotificationManager = (NotificationManager)context.getSystemService(context.NOTIFICATION_SERVICE);
 		mChannelId = channelId;
 
-		NotificationChannel channel = new NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_LOW);
-		mNotificationManager.createNotificationChannel(channel);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			NotificationChannel channel = new NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_LOW);
+			mNotificationManager.createNotificationChannel(channel);
+		}
 	}
 
 	/**

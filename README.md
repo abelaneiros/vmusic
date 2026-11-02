@@ -38,6 +38,7 @@ Release notes
 - Release notes added to README.md
 - Back 15 secs and forward 15 secs buttons added to control bar
 - Seek gestures move 15 secs instead of 10 secs
+- Lower min SDK version to 21
 
 ### 2.3.0
 - Public repo created in Github and code pushed

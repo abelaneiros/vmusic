@@ -981,6 +981,10 @@ public final class PlaybackService extends Service
 	@SuppressWarnings("deprecation")
 	private boolean isSpeakerOn()
 	{
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+			return !mAudioManager.isWiredHeadsetOn() && !mAudioManager.isBluetoothA2dpOn() && !mAudioManager.isBluetoothScoOn();
+		}
+
 		// Devices we consider to not be speakers.
 		final Integer[] headsetTypes = { AudioDeviceInfo.TYPE_BLUETOOTH_A2DP, AudioDeviceInfo.TYPE_BLUETOOTH_SCO,
 		                                 AudioDeviceInfo.TYPE_WIRED_HEADSET, AudioDeviceInfo.TYPE_WIRED_HEADPHONES,

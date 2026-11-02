@@ -20,7 +20,7 @@
 
 		<android.compileSdkVersion>34</android.compileSdkVersion>
 		<android.targetSdkVersion>34</android.targetSdkVersion>
-		<android.minSdkVersion>26</android.minSdkVersion>
+		<android.minSdkVersion>21</android.minSdkVersion>
 		<android.buildToolsVersion>36.0.0</android.buildToolsVersion>
 		<android.sdk.path>${env.ANDROID_HOME}</android.sdk.path>
 

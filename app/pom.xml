@@ -1148,7 +1148,7 @@
 									<jvmarg value="--enable-native-access=ALL-UNNAMED"/>
 									<arg value="sign"/>
 									<arg value="--v1-signing-enabled"/>
-									<arg value="false"/>
+									<arg value="true"/>
 									<arg value="--ks"/>
 									<arg file="${android.debug.keystore}"/>
 									<arg value="--ks-pass"/>

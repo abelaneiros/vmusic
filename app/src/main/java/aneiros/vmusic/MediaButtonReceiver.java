@@ -31,6 +31,8 @@ import android.os.SystemClock;
 import android.os.Handler;
 import android.view.KeyEvent;
 
+import androidx.core.content.ContextCompat;
+
 /**
  * Receives media button events and calls to PlaybackService to respond
  * appropriately.
@@ -125,7 +127,7 @@ public class MediaButtonReceiver extends BroadcastReceiver {
 			.setAction(act)
 			.putExtra(PlaybackService.EXTRA_FORCE_NOTIFICATION, true)
 			.putExtra(PlaybackService.EXTRA_EARLY_NOTIFICATION, true);
-			context.startForegroundService(intent);
+			ContextCompat.startForegroundService(context, intent);
 	}
 
 

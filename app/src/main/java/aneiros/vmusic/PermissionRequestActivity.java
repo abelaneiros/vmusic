@@ -32,10 +32,13 @@ import android.widget.TextView;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import java.util.Arrays;
 import java.util.ArrayList;
 
-public class PermissionRequestActivity extends Activity {
+public class PermissionRequestActivity extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
 	/**
 	 * The intent to start after acquiring the required permissions
@@ -61,7 +64,7 @@ public class PermissionRequestActivity extends Activity {
 			return;
 		}
 
-		requestPermissions(mSteps.get(0), 0);
+		ActivityCompat.requestPermissions(this, mSteps.get(0), 0);
 	}
 
 	@Override
@@ -100,7 +103,7 @@ public class PermissionRequestActivity extends Activity {
 
 		mStep = requestCode + 1;
 		if (mStep < mSteps.size()) {
-			requestPermissions(mSteps.get(mStep), mStep);
+			ActivityCompat.requestPermissions(this, mSteps.get(mStep), mStep);
 			return;
 		}
 
@@ -183,7 +186,7 @@ public class PermissionRequestActivity extends Activity {
 	 */
 	public static boolean havePermissions(Context context) {
 		for (String permission : getNeededPermissions()) {
-			if (context.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+			if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
 				return false;
 			}
 		}

@@ -28,8 +28,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.StringTokenizer;
 
-import java.nio.file.Path;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -259,17 +257,33 @@ public class FileUtils {
 	public static ArrayList<File> getFallbackDirectories(Context context, File dir) {
 		HashSet<File> result = new HashSet<>();
 
-		Path prefix = dir.toPath();
+		ArrayList<String> prefix = getPathNames(dir);
 		for (File f : context.getExternalMediaDirs()) {
-			Path p = f.toPath();
-			if (p.getNameCount() <= prefix.getNameCount())
+			if (f == null)
 				continue;
-			if (!p.startsWith(prefix))
+			ArrayList<String> p = getPathNames(f);
+			if (p.size() <= prefix.size())
 				continue;
-			Path sp = p.subpath(prefix.getNameCount(), prefix.getNameCount()+1);
-			result.add(new File(dir, sp.toString()));
+			if (!p.subList(0, prefix.size()).equals(prefix))
+				continue;
+			result.add(new File(dir, p.get(prefix.size())));
 		}
 		return new ArrayList<File>(result);
+	}
+
+	/**
+	 * Splits the path of a file into its name elements, ignoring empty elements.
+	 *
+	 * @param file the file to split.
+	 * @return the name elements of the file path.
+	 */
+	private static ArrayList<String> getPathNames(File file) {
+		ArrayList<String> names = new ArrayList<>();
+		for (String name : file.getPath().split(File.separator)) {
+			if (!name.isEmpty())
+				names.add(name);
+		}
+		return names;
 	}
 
 	/**

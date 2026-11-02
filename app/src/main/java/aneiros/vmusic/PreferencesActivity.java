@@ -27,6 +27,7 @@ package aneiros.vmusic;
 import android.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -163,7 +164,7 @@ public class PreferencesActivity extends PreferenceActivity
 			}
 
 			FragmentManager fragmentManager = getFragmentManager();
-			if (!fragmentManager.isStateSaved()) {
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O || !fragmentManager.isStateSaved()) {
 				fragmentManager.popBackStack();
 			}
 		}
