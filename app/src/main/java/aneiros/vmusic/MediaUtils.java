@@ -28,12 +28,9 @@ import ch.blinkenlights.android.medialibrary.MediaLibrary;
 import ch.blinkenlights.android.medialibrary.MediaMetadataExtractor;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import android.util.Log;
@@ -124,15 +121,6 @@ public class MediaUtils {
 	 * Cached random instance.
 	 */
 	private static Random sRandom;
-
-	/**
-	 * Shuffled list of all songs in the library.
-	 */
-	private static ArrayList<Song> sAllSongs = new ArrayList<Song>();
-	/**
-	 * True if sAllSongs was shuffled by album.
-	 */
-	private static boolean sAllSongsAS;
 
 	/**
 	 * Total number of songs in the music library, or -1 for uninitialized.
@@ -267,52 +255,13 @@ public class MediaUtils {
 
 	/**
 	 * Shuffle a Song list using Collections.shuffle().
-	 *
-	 * @param albumShuffle If true, preserve the order of songs inside albums.
 	 */
-	public static void shuffle(List<Song> list, boolean albumShuffle)
+	public static void shuffle(List<Song> list)
 	{
-		int size = list.size();
-		if (size < 2)
+		if (list.size() < 2)
 			return;
 
-		Random random = getRandom();
-		if (albumShuffle) {
-			List<Song> tempList = new ArrayList<Song>(list);
-			Collections.sort(tempList);
-
-			// Build map of albumId to start index in sorted list
-			Map<Long, Integer> albumStartIndices = new HashMap<Long, Integer>();
-			int index = 0;
-			for (Song song : tempList) {
-				if (!albumStartIndices.containsKey(song.albumId)) {
-					albumStartIndices.put(song.albumId, index);
-				}
-				index++;
-			}
-
-			//Extract album list and shuffle
-			List<Long> shuffledAlbums = new ArrayList<Long>(albumStartIndices.keySet());
-			Collections.shuffle(shuffledAlbums, random);
-
-			//Build Song list from album list
-			list.clear();
-			for (Long albumId : shuffledAlbums) {
-				int songIndex = albumStartIndices.get(albumId);
-				Song song = tempList.get(songIndex);
-				do {
-					list.add(song);
-					songIndex++;
-					if (songIndex < size) {
-						song = tempList.get(songIndex);
-					} else {
-						break;
-					}
-				} while (albumId == song.albumId);
-			}
-		} else {
-			Collections.shuffle(list, random);
-		}
+		Collections.shuffle(list, getRandom());
 	}
 
 	/**
@@ -331,36 +280,12 @@ public class MediaUtils {
 	}
 
 	/**
-	 * Returns a list containing all the songs found on the
-	 * device's library.
-	 *
-	 * @param context The Context to use
-	 */
-	private static ArrayList<Song> getAllSongs(Context context) {
-		QueryTask query = new QueryTask(MediaLibrary.VIEW_SONGS_ALBUMS_ARTISTS, Song.FILLED_PROJECTION, null, null, null);
-		Cursor cursor = query.runQuery(context);
-		ArrayList<Song> list = new ArrayList<Song>();
-
-		if (cursor == null)
-			return list;
-
-		while (cursor.moveToNext()) {
-			Song song = new Song(-1);
-			song.populate(cursor);
-			list.add(song);
-		}
-		cursor.close();
-		return list;
-	}
-
-	/**
 	 * Called if we detected a medium change
 	 * This flushes some cached data
 	 */
 	public static void onMediaChange()
 	{
 		sSongCount = -1;
-		sAllSongs.clear();
 	}
 
 	/**
@@ -411,54 +336,6 @@ public class MediaUtils {
 			cursor.close();
 		}
 		return song.isFilled() ? song : null;
-	}
-
-	/**
-	 * Returns a list of songs randomly selected from all the songs in the Android
-	 * MediaStore. When albumShuffle is specified, the returned list may contain all the songs
-	 * for that album, in order. Otherwise, only one song will be returned. If no songs are
-	 * available, the list will be empty.
-	 *
-	 * @param context The Context to use
-	 * @param albumShuffle Whether or not we should shuffle by album
-	 */
-	public static List<Song> getRandomSongs(Context context, boolean albumShuffle) {
-		ArrayList<Song> songs = sAllSongs;
-
-		if (songs.size() == 0 || sAllSongsAS != albumShuffle) {
-			sAllSongs = getAllSongs(context);
-			sAllSongsAS = albumShuffle;
-			shuffle(sAllSongs, albumShuffle);
-			songs = sAllSongs;
-			// We don't need it but know the value, we can fill the cache for free.
-			sSongCount = songs.size();
-		}
-
-		final List<Song> results = new ArrayList<>();
-
-		if (songs.size() > 0) {
-
-			long firstAlbumId = songs.get(0).albumId;
-
-			// if we're in album shuffle mode, we'll want to add in the entire album in one go,
-			// so loop through the upcoming songs and add all those that have the same album id
-			// as the song we initially got
-			boolean addMore;
-			do {
-				final Song song = songs.remove(0);
-
-				// when in album shuffle mode, we don't want to flag any of the added songs
-				// as random, since manually enqueuing or changing random mode will remove every album track.
-				if (!albumShuffle) {
-					song.flags |= Song.FLAG_RANDOM;
-				}
-
-				results.add(song);
-				addMore = albumShuffle && songs.size() > 0 && songs.get(0).albumId == firstAlbumId;
-			} while (addMore);
-		}
-
-		return results;
 	}
 
 	/**

@@ -127,11 +127,8 @@ public class MediaSessionTracker {
 				metadataBuilder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, cover);
 			}
 
-			// logic copied from FullPlaybackActivity.updateQueuePosition()
-			if (PlaybackService.finishAction(service.getState()) != SongTimeline.FINISH_RANDOM) {
-				metadataBuilder.putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, service.getTimelinePosition() + 1);
-				metadataBuilder.putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, service.getTimelineLength());
-			}
+			metadataBuilder.putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, service.getTimelinePosition() + 1);
+			metadataBuilder.putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, service.getTimelineLength());
 			mMediaSession.setMetadata(metadataBuilder.build());
 		}
 

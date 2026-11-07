@@ -273,15 +273,8 @@ public class FullPlaybackActivity extends SlidingPlaybackActivity
 	 */
 	private void updateQueuePosition()
 	{
-		if (PlaybackService.finishAction(mState) == SongTimeline.FINISH_RANDOM) {
-			// Not very useful in random mode; it will always show something
-			// like 11/13 since the timeline is trimmed to 10 previous songs.
-			// So just hide it.
-			mQueuePosView.setText(null);
-		} else {
-			PlaybackService service = PlaybackService.get(this);
-			mQueuePosView.setText((service.getTimelinePosition() + 1) + "/" + service.getTimelineLength());
-		}
+		PlaybackService service = PlaybackService.get(this);
+		mQueuePosView.setText((service.getTimelinePosition() + 1) + "/" + service.getTimelineLength());
 		mQueuePosView.requestLayout(); // ensure queue pos column has enough room
 	}
 
@@ -627,9 +620,7 @@ public class FullPlaybackActivity extends SlidingPlaybackActivity
 	@Override
 	public void onClick(View view)
 	{
-		if (view == mOverlayText && (mState & PlaybackService.FLAG_EMPTY_QUEUE) != 0) {
-			setState(PlaybackService.get(this).setFinishAction(SongTimeline.FINISH_RANDOM));
-		} else if (view == mCoverView) {
+		if (view == mCoverView) {
 			performAction(mCoverPressAction);
 		} else if (view.getId() == R.id.info_table) {
 			openLibrary(mCurrentSong, MediaUtils.TYPE_ALBUM);

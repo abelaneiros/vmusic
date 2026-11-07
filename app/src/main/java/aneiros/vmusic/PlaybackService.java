@@ -158,10 +158,6 @@ public final class PlaybackService extends Service
 	 */
 	public static final String ACTION_PREVIOUS_SONG_AUTOPLAY = "aneiros.vmusic.action.PREVIOUS_SONG_AUTOPLAY";
 	/**
-	 * Flushes the queue, switches to random mode and starts playing.
-	 */
-	public static final String ACTION_RANDOM_MIX_AUTOPLAY = "aneiros.vmusic.action.RANDOM_MIX_AUTOPLAY";
-	/**
 	 * Flushes the queue and plays everything of the passed type/id combination.
 	 */
 	public static final String ACTION_FROM_TYPE_ID_AUTOPLAY = "aneiros.vmusic.action.FROM_TYPE_ID_AUTOPLAY";
@@ -590,14 +586,6 @@ public final class PlaybackService extends Service
 				cycleFinishAction();
 			} else if (ACTION_CYCLE_SHUFFLE.equals(action)) {
 				cycleShuffle();
-			} else if (ACTION_RANDOM_MIX_AUTOPLAY.equals(action)) {
-				pause();
-				emptyQueue();
-				setFinishAction(SongTimeline.FINISH_RANDOM);
-				// We can't use play() here as setFinishAction() is handled in the background.
-				// We therefore send a GO message to the same queue, so it will get handled as
-				// soon as the queue is ready.
-				mHandler.sendEmptyMessage(MSG_CALL_GO);
 			} else if (ACTION_FROM_TYPE_ID_AUTOPLAY.equals(action)) {
 				int type = intent.getIntExtra(LibraryAdapter.DATA_TYPE, MediaUtils.TYPE_INVALID);
 				long id = intent.getLongExtra(LibraryAdapter.DATA_ID, LibraryAdapter.INVALID_ID);
@@ -809,7 +797,6 @@ public final class PlaybackService extends Service
 
 		if( nextSong != null
 		 && fa != SongTimeline.FINISH_REPEAT_CURRENT
-		 && fa != SongTimeline.FINISH_STOP_CURRENT
 		 && !mTimeline.isEndOfQueue() ) {
 			doGapless = true;
 		}
@@ -1223,11 +1210,6 @@ public final class PlaybackService extends Service
 	public int play()
 	{
 		synchronized (mStateLock) {
-			if ((mState & FLAG_EMPTY_QUEUE) != 0) {
-				setFinishAction(SongTimeline.FINISH_RANDOM);
-				showToast(R.string.random_enabling, Toast.LENGTH_SHORT);
-			}
-
 			int state = updateState(mState | FLAG_PLAYING);
 			userActionTriggered();
 			return state;
@@ -1280,7 +1262,7 @@ public final class PlaybackService extends Service
 	}
 
 	/**
-	 * Cycle repeat mode. Disables random mode.
+	 * Cycle repeat mode.
 	 *
 	 * @return The new state after this is called.
 	 */
@@ -1288,7 +1270,7 @@ public final class PlaybackService extends Service
 	{
 		synchronized (mStateLock) {
 			int mode = finishAction(mState) + 1;
-			if (mode > SongTimeline.FINISH_RANDOM)
+			if (mode > SongTimeline.FINISH_REPEAT_CURRENT)
 				mode = SongTimeline.FINISH_STOP;
 			return setFinishAction(mode);
 		}
@@ -1316,7 +1298,7 @@ public final class PlaybackService extends Service
 	{
 		synchronized (mStateLock) {
 			int mode = shuffleMode(mState) + 1;
-			if (mode > SongTimeline.SHUFFLE_ALBUMS)
+			if (mode > SongTimeline.SHUFFLE_SONGS)
 				mode = SongTimeline.SHUFFLE_NONE; // end reached: switch to none
 			return setShuffleMode(mode);
 		}
@@ -1342,9 +1324,8 @@ public final class PlaybackService extends Service
 		mCurrentSong = song;
 		if (song == null) {
 			if (MediaUtils.isSongAvailable(getApplicationContext())) {
-				int flag = finishAction(mState) == SongTimeline.FINISH_RANDOM ? FLAG_ERROR : FLAG_EMPTY_QUEUE;
 				synchronized (mStateLock) {
-					updateState((mState | flag) & ~FLAG_NO_MEDIA);
+					updateState((mState | FLAG_EMPTY_QUEUE) & ~FLAG_NO_MEDIA);
 				}
 				return null;
 			} else {
@@ -1440,9 +1421,6 @@ public final class PlaybackService extends Service
 
 		if (finishAction(mState) == SongTimeline.FINISH_REPEAT_CURRENT) {
 			setCurrentSong(0);
-		} else if (finishAction(mState) == SongTimeline.FINISH_STOP_CURRENT) {
-			unsetFlag(FLAG_PLAYING);
-			setCurrentSong(+1);
 		} else {
 			if (mTimeline.isEndOfQueue()) {
 				finishHistoryExecution();

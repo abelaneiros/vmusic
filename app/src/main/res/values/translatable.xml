@@ -27,7 +27,7 @@ THE SOFTWARE.
 
 	<!-- Playback Activity (main screen) -->
 	<string name="no_songs">No tracks found on your device.</string>
-	<string name="empty_queue">No tracks selected. Pick some from the library or enter random mode by tapping this message.</string>
+	<string name="empty_queue">No tracks selected. Pick some from the library.</string>
 	<string name="settings">Settings</string>
 	<string name="no_shuffle">No shuffle</string>
 	<string name="shuffle_songs">Shuffle tracks</string>

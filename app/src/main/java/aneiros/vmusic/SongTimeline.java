@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
 import java.util.ListIterator;
 
 import junit.framework.Assert;
@@ -68,27 +67,12 @@ public final class SongTimeline {
 	 * @see SongTimeline#setFinishAction(int)
 	 */
 	public static final int FINISH_REPEAT_CURRENT = 2;
-	/**
-	 * Stop playback after current song. This behavior is implemented entirely
-	 * in {@link PlaybackService#onCompletion(android.media.MediaPlayer)};
-	 * pressing the next or previous buttons will advance the song as normal;
-	 * only allowing the song to play until the end.
-	 *
-	 * @see SongTimeline#setFinishAction(int)
-	 */
-	public static final int FINISH_STOP_CURRENT = 3;
-	/**
-	 * Add random songs to the playlist.
-	 *
-	 * @see SongTimeline#setFinishAction(int)
-	 */
-	public static final int FINISH_RANDOM = 4;
 
 	/**
 	 * Icons corresponding to each of the finish actions.
 	 */
 	public static final int[] FINISH_ICONS =
-		{ R.drawable.repeat_inactive, R.drawable.repeat_active, R.drawable.repeat_current_active, R.drawable.stop_current_active, R.drawable.random_active };
+		{ R.drawable.repeat_inactive, R.drawable.repeat_active, R.drawable.repeat_current_active };
 
 	/**
 	 * Clear the timeline and use only the provided songs.
@@ -171,19 +155,12 @@ public final class SongTimeline {
 	 * @see SongTimeline#setShuffleMode(int)
 	 */
 	public static final int SHUFFLE_SONGS = 1;
-	/**
-	 * Randomize order of albums, preserving the order of tracks inside the
-	 * albums.
-	 *
-	 * @see SongTimeline#setShuffleMode(int)
-	 */
-	public static final int SHUFFLE_ALBUMS = 2;
 
 	/**
 	 * Icons corresponding to each of the shuffle actions.
 	 */
 	public static final int[] SHUFFLE_ICONS =
-		{ R.drawable.shuffle_inactive, R.drawable.shuffle_active, R.drawable.shuffle_album_active };
+		{ R.drawable.shuffle_inactive, R.drawable.shuffle_active };
 
 	/**
 	 * Move current position to the previous album.
@@ -242,10 +219,6 @@ public final class SongTimeline {
 	 * Hash code of mSongs while mShuffleCache was generated
 	 */
 	private int mShuffleTicket;
-	/**
-	 * The last song we added randomly by calling MediaUtils.getRandomSong()
-	 */
-	private Song mLastRandomSong;
 
 	// for saveActiveSongs()
 	private Song mSavedPrevious;
@@ -536,7 +509,7 @@ public final class SongTimeline {
 		synchronized (this) {
 			saveActiveSongs();
 			mShuffleMode = mode;
-			if (mode != SHUFFLE_NONE && mFinishAction != FINISH_RANDOM && !mSongs.isEmpty()) {
+			if (mode != SHUFFLE_NONE && !mSongs.isEmpty()) {
 				ArrayList<Song> songs = getShuffledTimeline(false);
 				mCurrentPos = songs.indexOf(mSavedCurrent);
 				mSongs = songs;
@@ -549,28 +522,12 @@ public final class SongTimeline {
 
 	/**
 	 * Set what to do when the end of the playlist is reached. Must be one of
-	 * SongTimeline.FINISH_* (stop, repeat, or add random song).
+	 * SongTimeline.FINISH_* (stop, repeat, or repeat current song).
 	 */
 	public void setFinishAction(int action)
 	{
 		synchronized (this) {
 			saveActiveSongs();
-
-			if (mFinishAction == FINISH_RANDOM) {
-				// Remove the last song if we are going out of RANDOM mode and we
-				// are currently playing the 2nd last one.
-				int lastSongPos = getLength() - 1;
-				if (getPosition()+1 == lastSongPos) {
-					Song lastSong = mSongs.get(lastSongPos);
-					if (lastSong.isRandom() && lastSong.equals(mLastRandomSong)) {
-						mSongs.remove(lastSongPos);
-					}
-				}
-				// forget about the last random song, even if it survived (eg: was switching modes while not playing
-				// the 2nd last song -> the last song is now considered to be part of the queue)
-				mLastRandomSong = null;
-			}
-
 			mFinishAction = action;
 			broadcastChangedSongs();
 			changed();
@@ -591,7 +548,7 @@ public final class SongTimeline {
 
 		if (mShuffleCache == null) {
 			ArrayList<Song> songs = new ArrayList<Song>(mSongs);
-			MediaUtils.shuffle(songs, mShuffleMode == SHUFFLE_ALBUMS);
+			MediaUtils.shuffle(songs);
 			mShuffleCache = songs;
 			mShuffleTicket = mSongs.hashCode();
 		}
@@ -633,39 +590,18 @@ public final class SongTimeline {
 			int size = timeline.size();
 
 			if (pos < 0) {
-				if (size == 0 || mFinishAction == FINISH_RANDOM)
+				if (size == 0)
 					return null;
 				song = timeline.get(Math.max(0, size - 1));
 			} else if (pos > size) {
 				return null;
 			} else if (pos == size) {
-				if (mFinishAction == FINISH_RANDOM) {
-
-					final List<Song> songs = MediaUtils.getRandomSongs(mContext, mShuffleMode == SHUFFLE_ALBUMS);
-					if (songs.size() == 0) {
-						return null;
-					}
-
-					for (Song newSong : songs) {
-						timeline.add(newSong);
-					}
-
-					song = songs.get(0);
-
-					mLastRandomSong = song;
-					// Keep the queue at 20 items to avoid growing forever
-					// Note that we do not broadcast the addition of this song, as it
-					// was virtually 'always there'
-					shrinkQueue(20);
-				} else {
-					if (size == 0)
-						// empty queue
-						return null;
-					else if (mShuffleMode != SHUFFLE_NONE)
-						song = getShuffledTimeline(true).get(0);
-					else
-						song = timeline.get(0);
-				}
+				if (size == 0)
+					return null;
+				else if (mShuffleMode != SHUFFLE_NONE)
+					song = getShuffledTimeline(true).get(0);
+				else
+					song = timeline.get(0);
 			} else {
 				song = timeline.get(pos);
 			}
@@ -689,17 +625,14 @@ public final class SongTimeline {
 	{
 		int pos = mCurrentPos + delta;
 
-		if (mFinishAction != FINISH_RANDOM && pos == mSongs.size()) {
+		if (pos == mSongs.size()) {
 			if (mShuffleMode != SHUFFLE_NONE && !mSongs.isEmpty()) {
 				mSongs = getShuffledTimeline(true);
 			}
 
 			pos = 0;
 		} else if (pos < 0) {
-			if (mFinishAction == FINISH_RANDOM)
-				pos = 0;
-			else
-				pos = Math.max(0, mSongs.size() - 1);
+			pos = Math.max(0, mSongs.size() - 1);
 		}
 
 		mCurrentPos = pos;
@@ -772,8 +705,6 @@ public final class SongTimeline {
 						break;
 					if (currentSong.id == song.id) // probably looping? (= only one album in queue)
 						break;
-					if (getPosition() == 0 && getFinishAction() == FINISH_RANDOM) // dead end: FINISH_RANDOM won't wrap around.
-						break;
 				}
 			}
 		}
@@ -837,13 +768,6 @@ public final class SongTimeline {
 			case MODE_ENQUEUE_POS_FIRST:
 			case MODE_ENQUEUE_ID_FIRST:
 			case MODE_ENQUEUE_AS_NEXT:
-				if (mFinishAction == FINISH_RANDOM) {
-					int j = timeline.size();
-					while (--j > mCurrentPos) {
-						if (timeline.get(j).isRandom())
-							timeline.remove(j);
-					}
-				}
 				break;
 			case MODE_FLUSH_AND_PLAY_NEXT:
 				timeline.subList(mCurrentPos + 1, timeline.size()).clear();
@@ -912,7 +836,7 @@ public final class SongTimeline {
 			cursor.close();
 
 			if (mShuffleMode != SHUFFLE_NONE)
-				MediaUtils.shuffle(timeline.subList(start, start+added), mShuffleMode == SHUFFLE_ALBUMS);
+				MediaUtils.shuffle(timeline.subList(start, start+added));
 
 			if (jumpSong != null) {
 				int jumpPos = timeline.lastIndexOf(jumpSong);
@@ -929,19 +853,6 @@ public final class SongTimeline {
 		changed();
 
 		return added;
-	}
-
-	/**
-	 * Removes any songs greater than `len' songs before the current song.
-	 */
-	private void shrinkQueue(int len) {
-		synchronized (this) {
-			while (mCurrentPos > len) {
-				mSongs.remove(0);
-				mCurrentPos--;
-			}
-		}
-		changed();
 	}
 
 	/**

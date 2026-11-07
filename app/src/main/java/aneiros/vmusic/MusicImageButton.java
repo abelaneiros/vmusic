@@ -67,10 +67,7 @@ public class MusicImageButton extends ImageButton {
 		switch (resHint) {
 			case R.drawable.repeat_active:
 			case R.drawable.repeat_current_active:
-			case R.drawable.stop_current_active:
 			case R.drawable.shuffle_active:
-			case R.drawable.shuffle_album_active:
-			case R.drawable.random_active:
 				filterColor = mActiveTint;
 		}
 

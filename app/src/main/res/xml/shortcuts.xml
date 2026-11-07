@@ -14,17 +14,4 @@
 			android:targetPackage="aneiros.vmusic"/>
 	</shortcut>
 
-	<shortcut
-		android:enabled="true"
-		android:icon="@drawable/shortcut_random"
-		android:shortcutId="random"
-		android:shortcutDisabledMessage="@string/random"
-		android:shortcutLongLabel="@string/random"
-		android:shortcutShortLabel="@string/random">
-		<intent
-			android:action="aneiros.vmusic.action.RANDOM_MIX_AUTOPLAY"
-			android:targetClass="aneiros.vmusic.ShortcutPseudoActivity"
-			android:targetPackage="aneiros.vmusic"/>
-	</shortcut>
-
 </shortcuts> 

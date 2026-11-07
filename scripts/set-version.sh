@@ -14,7 +14,7 @@ MAJOR="${BASH_REMATCH[1]}"
 MINOR="${BASH_REMATCH[2]}"
 PATCH="${BASH_REMATCH[3]}"
 VERSION_CODE=$((10#$MAJOR * 10000 + 10#$MINOR * 100 + 10#$PATCH))
-RELEASE_DATE="$(LC_ALL=C date '+%-d. %b. %Y')"
+RELEASE_DATE="$(date '+%d/%m/%Y')"
 
 cd "$(dirname "$0")/.."
 
@@ -31,7 +31,14 @@ die() {
 
 for f in "${FILES[@]}"; do
 	[ -f "$f" ] || die "$f not found"
+	if grep -qE '^(<{7}|={7}|>{7})( |$)' "$f"; then
+		die "$f contains merge conflict markers"
+	fi
 done
+
+ABOUT_VERSION_LINE='^<p><b>Version:</b> .* Released:? .*</p>$'
+[ "$(grep -c '<b>Version:</b>' "$ABOUT" || true)" -eq 1 ] || die "$ABOUT must contain exactly one Version line"
+grep -qE "$ABOUT_VERSION_LINE" "$ABOUT" || die "$ABOUT Version line must look like: <p><b>Version:</b> X.Y.Z Released: DD/MM/YYYY</p>"
 
 [ -z "$(git status --porcelain)" ] || die "working tree is not clean"
 
@@ -47,8 +54,8 @@ sed -i \
 	-e "s|android:versionCode=\"[^\"]*\"|android:versionCode=\"$VERSION_CODE\"|" \
 	"$MANIFEST"
 
-sed -i \
-	-e "s|^<p><b>Version:</b> .* Released .*</p>$|<p><b>Version:</b> $NEW_VERSION Released $RELEASE_DATE</p>|" \
+sed -i -E \
+	-e "s|$ABOUT_VERSION_LINE|<p><b>Version:</b> $NEW_VERSION Released: $RELEASE_DATE</p>|" \
 	"$ABOUT"
 
 check_changes() {
@@ -65,6 +72,12 @@ check_changes "$ROOT_POM" 1
 check_changes "$APP_POM" 1
 check_changes "$MANIFEST" 2
 check_changes "$ABOUT" 1
+
+if ! grep -qxF "<p><b>Version:</b> $NEW_VERSION Released: $RELEASE_DATE</p>" "$ABOUT"; then
+	git checkout -- "${FILES[@]}"
+	die "$ABOUT: Version line was not updated to $NEW_VERSION / $RELEASE_DATE (changes reverted)"
+fi
+echo "About page: Version $NEW_VERSION Released: $RELEASE_DATE"
 
 git --no-pager diff --stat -- "${FILES[@]}"
 

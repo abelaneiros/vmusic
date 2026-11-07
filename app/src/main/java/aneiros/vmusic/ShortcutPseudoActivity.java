@@ -50,7 +50,6 @@ public class ShortcutPseudoActivity extends Activity {
 			case PlaybackService.ACTION_PAUSE:
 			case PlaybackService.ACTION_TOGGLE_PLAYBACK:
 			case PlaybackService.ACTION_TOGGLE_PLAYBACK_DELAYED:
-			case PlaybackService.ACTION_RANDOM_MIX_AUTOPLAY:
 			case PlaybackService.ACTION_NEXT_SONG:
 			case PlaybackService.ACTION_NEXT_SONG_DELAYED:
 			case PlaybackService.ACTION_NEXT_SONG_AUTOPLAY:

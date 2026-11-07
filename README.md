@@ -35,26 +35,29 @@ Release notes
 =============
 
 ### 2.5.0
-- Lower min SDK version to 21
+- Lower min SDK version to 21.
+- Shuffle button simplified. Now with only 2 statuses: `No shuffle`, `Shuffle tracks within queue`.
+- Repeat button simplified. Now with only 3 statuses: `No repeat`, `Repeat tracks within queue`, and `Repeat current track`.
+- About page simplified.
 
 ### 2.4.0
-- Release notes added to README.md
-- Back 15 secs and forward 15 secs buttons added to control bar
-- Seek gestures move 15 secs instead of 10 secs
+- Release notes added to `README.md`.
+- Back 15 secs and forward 15 secs buttons added to the control bar.
+- Seek gestures to move 15 secs instead of 10 secs.
 
 ### 2.3.0
-- Public repo created in Github and code pushed
+- Public repo created in Github and code pushed.
 
 ### 2.2.0
-- New icon with green colour
-- Added message explaining why the app needs each permission
-- Playing bar more visible (Play/Pause and other buttons always visible)
-- History tab added
+- New icon with green colour.
+- Added message explaining why the app needs each permission.
+- Playing bar more visible (play/pause and other buttons always visible).
+- The history tab was added.
 
 ### 2.0.0
-- App renamed to vMusic
-- Default package renamed to abelaneiros.vmusic
-- Migrated from Gradle to Maven
+- App renamed to vMusic.
+- The default package was renamed to abelaneiros.vmusic.
+- Migrated from Gradle to Maven.
 
 ### 1.3.2
-- Fork/clone to original version
+- Fork/clone to original version.
