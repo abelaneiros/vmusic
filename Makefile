@@ -17,12 +17,12 @@ debug: build
 	adb install -r $(DEBUG_APK)
 
 build: clean
-	$(MVN) package
+	$(MVN) -q package
 
 clean:
-	$(MVN) clean
+	$(MVN) -q clean
 
-version:
+set-version:
 	./scripts/set-version.sh "$(V)"
 
 clear-app:

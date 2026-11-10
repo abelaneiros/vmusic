@@ -34,6 +34,9 @@ Building from command-line:
 Release notes
 =============
 
+### 2.6.0
+- History item is not removed once the paying queue ends.
+
 ### 2.5.0
 - Lower min SDK version to 21.
 - Shuffle button simplified. Now with only 2 statuses: `No shuffle`, `Shuffle tracks within queue`.

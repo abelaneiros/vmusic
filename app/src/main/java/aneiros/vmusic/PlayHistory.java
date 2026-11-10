@@ -313,23 +313,15 @@ public class PlayHistory {
 
 	public boolean finishCurrent(Execution restart)
 	{
-		boolean removed;
 		synchronized (this) {
 			int index = indexOf(mCurrentId);
-			if (index == -1)
+			if (index == -1 || restart == null)
 				return false;
-			Execution entry = mEntries.get(index);
-			removed = !entry.pinned;
-			if (removed) {
-				mEntries.remove(index);
-				mCurrentId = -1;
-			} else if (restart != null) {
-				entry.copyPlaybackFrom(restart);
-			}
+			mEntries.get(index).copyPlaybackFrom(restart);
 			save();
 		}
 		notifyListeners();
-		return removed;
+		return true;
 	}
 
 	public boolean remove(long id)

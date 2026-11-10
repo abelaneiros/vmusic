@@ -36,9 +36,9 @@ for f in "${FILES[@]}"; do
 	fi
 done
 
-ABOUT_VERSION_LINE='^<p><b>Version:</b> .* Released:? .*</p>$'
+ABOUT_VERSION_LINE='^<p><b>Version:</b> .*<br><b>Released:</b> .*</p>$'
 [ "$(grep -c '<b>Version:</b>' "$ABOUT" || true)" -eq 1 ] || die "$ABOUT must contain exactly one Version line"
-grep -qE "$ABOUT_VERSION_LINE" "$ABOUT" || die "$ABOUT Version line must look like: <p><b>Version:</b> X.Y.Z Released: DD/MM/YYYY</p>"
+grep -qE "$ABOUT_VERSION_LINE" "$ABOUT" || die "$ABOUT Version line must look like: <p><b>Version:</b> X.Y.Z<br><b>Released:</b> DD/MM/YYYY</p>"
 
 [ -z "$(git status --porcelain)" ] || die "working tree is not clean"
 
@@ -55,7 +55,7 @@ sed -i \
 	"$MANIFEST"
 
 sed -i -E \
-	-e "s|$ABOUT_VERSION_LINE|<p><b>Version:</b> $NEW_VERSION Released: $RELEASE_DATE</p>|" \
+	-e "s|$ABOUT_VERSION_LINE|<p><b>Version:</b> $NEW_VERSION<br><b>Released:</b> $RELEASE_DATE</p>|" \
 	"$ABOUT"
 
 check_changes() {
@@ -73,7 +73,7 @@ check_changes "$APP_POM" 1
 check_changes "$MANIFEST" 2
 check_changes "$ABOUT" 1
 
-if ! grep -qxF "<p><b>Version:</b> $NEW_VERSION Released: $RELEASE_DATE</p>" "$ABOUT"; then
+if ! grep -qxF "<p><b>Version:</b> $NEW_VERSION<br><b>Released:</b> $RELEASE_DATE</p>" "$ABOUT"; then
 	git checkout -- "${FILES[@]}"
 	die "$ABOUT: Version line was not updated to $NEW_VERSION / $RELEASE_DATE (changes reverted)"
 fi
